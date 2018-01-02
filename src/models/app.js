@@ -57,7 +57,7 @@ export default {
         console.log('出错了');
       };
       socket.onclose = function () {
-        console.log('关闭连接');
+        console.log('关闭websocket连接');
       }
       console.log('--------socket--------');
       console.log(socket);
