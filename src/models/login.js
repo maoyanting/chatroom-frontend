@@ -19,7 +19,7 @@ export default {
       const user = { user: data.data };
       if (data.resCode === 1) {
         yield put({ type: 'app/query', payload: user });
-        yield put({ type: 'app/webSocket', payload: user.user.userId });
+        // yield put({ type: 'app/webSocket', payload: user.user.userId });
         yield put(routerRedux.push('/chat'));
       } else {
         message.error('密码错误');

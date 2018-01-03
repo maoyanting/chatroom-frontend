@@ -7,7 +7,7 @@ import styles from './ChatList.less';
 const FriendList = ({ chatList, dispatch }) => {
   /* 点击后，把key和用户信息都传给app */
   function getUserInformation(userTo) {
-    dispatch({ type: 'app/query', payload: { userTo, ContentType: 'ChatWebSocket' } });
+    dispatch({ type: 'app/query', payload: { userTo, ContentType: 'PersonalChatRoom' } });
   }
   return (
     <div className={styles.container}>

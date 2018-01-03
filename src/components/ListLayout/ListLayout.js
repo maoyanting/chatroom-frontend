@@ -12,7 +12,7 @@ function MainLayout({ dispatch, ListType }) {
     dispatch({ type: 'app/query', payload: { ListType: 'contacts' } });
   }
   function getTeam() {
-    dispatch({ type: 'app/query', payload: { ListType: 'team' } });
+    dispatch({ type: 'app/query', payload: { ListType: 'chatGroup' } });
   }
   return (
     <div>

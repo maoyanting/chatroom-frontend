@@ -7,7 +7,7 @@ import styles from './ChatGroupList.less';
 const ChatGroupList = ({ chatGroupList, dispatch }) => {
   /* 点击后，把key和用户信息都传给app */
   function getChatGroupInformation(chatGroupTo) {
-    dispatch({ type: 'app/query', payload: { chatGroupTo, ContentType: 'ChatWebSocket' } });
+    dispatch({ type: 'app/query', payload: { chatGroupTo, ContentType: 'ChatGroupInformation' } });
   }
   return (
     <div className={styles.container}>

@@ -27,6 +27,10 @@ const Routers = function ({ history, app }) {
       path: '/toRegister',
       models: () => [import('./models/register')],
       component: () => import('./routes/register'),
+    }, {
+      path: '/toJoinChatGroup/:chatGroupId',
+      models: () => [import('./models/joinChatGroup')],
+      component: () => import('./routes/joinChatGroup'),
     },
   ]
   return (

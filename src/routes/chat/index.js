@@ -10,7 +10,7 @@ import MyHeader from '../../components/MyHeader/MyHeader';
 
 const { Sider } = Layout;
 
-const Chat = ({userNickname, SearchUserById, chatList, ContentType, dispatch, sendMessage, socket, Notice, NoticeLength}) => {
+const Chat = ({userNickname, SearchUserById, chatList, ContentType, dispatch, sendMessage, socket, Notice, NoticeLength, groupMessage }) => {
   socket.onmessage = function (event) {
     const sendMessageNew = JSON.parse(event.data);
     if (sendMessageNew.messageType === 3) {
@@ -21,8 +21,8 @@ const Chat = ({userNickname, SearchUserById, chatList, ContentType, dispatch, se
       console.log('收到一条好友请求的回复：后端发过来的数据');
       console.log(event.data);
       dispatch({type: 'app/query', payload: {Notice: [...Notice, sendMessageNew], NoticeLength: NoticeLength + 1}});
-    } else {
-      console.log('收到一条消息：后端发过来的数据');
+    } else if (sendMessageNew.messageType === 1) {
+      console.log('收到一条私聊消息：后端发过来的数据');
       console.log(event.data);
       /* 获取聊天的对象id */
       const { userFromId } = sendMessageNew;
@@ -30,6 +30,14 @@ const Chat = ({userNickname, SearchUserById, chatList, ContentType, dispatch, se
       dispatch({ type: 'chat/addChatList', payload: { userId: userFromId } });
       dispatch({ type: 'app/query', payload: { chatList: [...chatList, SearchUserById]}});
       dispatch({ type: 'app/query', payload: { sendMessage: [...sendMessage, sendMessageNew]}});
+    } else if (sendMessageNew.messageType === 2) {
+      console.log('收到一条群聊消息：后端发过来的数据');
+      console.log(event.data);
+      /* 获取聊天的对象id */
+      // const { userFromId } = sendMessageNew;
+      // dispatch({ type: 'chat/addChatList', payload: { userId: userFromId } });
+      // dispatch({ type: 'app/query', payload: { chatList: [...chatList, SearchUserById]}});
+      dispatch({ type: 'app/query', payload: { groupMessage: [...groupMessage, sendMessageNew]}});
     }
   };
   return (
@@ -63,6 +71,7 @@ function mapStateToProps(state) {
     userNickname: state.app.user.userNickname,
     ContentType: state.app.ContentType,
     sendMessage: state.app.sendMessage,
+    groupMessage: state.app.groupMessage,
     socket: state.app.socket,
     Notice: state.app.Notice,
     NoticeLength: state.app.NoticeLength,

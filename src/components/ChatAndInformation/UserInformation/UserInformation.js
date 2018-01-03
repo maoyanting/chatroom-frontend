@@ -10,7 +10,7 @@ function UserInformation({ userTo, dispatch, DeleteFriendVisible, myId }) {
     userBId: userId,
   };
   function goChat() {
-    dispatch({ type: 'app/query', payload: { ContentType: 'ChatWebSocket' } });
+    dispatch({ type: 'app/query', payload: { ContentType: 'PersonalChatRoom' } });
   }
 
   function goToDeleteFriend() {

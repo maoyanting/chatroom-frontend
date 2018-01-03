@@ -24,8 +24,29 @@ export function getChatGroupList(userId) {
     body: JSON.stringify(userId),
   });
 }
+export function getMyself() {
+  return request('/api/getMyself', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    mode: 'cors',
+    credentials: 'include',
+  });
+}
 export function createChatGroup(data) {
   return request('/api/createChatGroup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    mode: 'cors',
+    credentials: 'include',
+    body: JSON.stringify(data),
+  });
+}
+export function quitChatGroup(data) {
+  return request('/api/quitChatGroup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

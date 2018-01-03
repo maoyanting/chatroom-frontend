@@ -1,5 +1,9 @@
 import { routerRedux } from 'dva/router';
-import { getFriendList, createChatGroup, getChatGroupList, searchUser, addFriend, deleteFriend, searchUserById } from '../services/chat';
+import { message } from 'antd';
+import {
+  getFriendList, quitChatGroup, createChatGroup, getChatGroupList, searchUser, addFriend, deleteFriend, searchUserById,
+  getMyself
+} from '../services/chat';
 
 export default {
   namespace: 'chat',
@@ -103,7 +107,7 @@ export default {
       const friendList = { friendList: data.data };
       yield put({ type: 'app/query', payload: friendList });
     },
-    * geChatGroupList({
+    * getChatGroupList({
                       payload,
                     }, { call, put, select }) {
       /* 获取群列表 */
@@ -116,18 +120,43 @@ export default {
       const chatGroupList = { chatGroupList: data.data };
       yield put({ type: 'app/query', payload: chatGroupList });
     },
-    * createChatGroup({
-                        payload,
-                      }, { call, put }) {
-      /* 新建群聊 */
-      console.log('-------------------获取群列表：给后端的用户数据------------------');
-      console.log(payload);
-      yield put(routerRedux.push('/error'));
-      const { data } = yield call(createChatGroup, payload);
-      console.log('------------------获取群列表：后端传过来的数据----------------------');
+    * getMyself({
+                  payload,
+                },{ call, put }) {
+      const { data } = yield call(getMyself);
+      console.log('------------------获取user：后端传过来的数据----------------------');
       console.log(data);
+      const user = { user: data.data };
+      if (data.resCode === 1) {
+        yield put({ type: 'app/query', payload: user });
+      } else {
+        yield put(routerRedux.push('/error'));
+        message.error('没有登录');
+      }
+    },
+    * createChatGroup({
+                                  payload,
+                                }, { call, put }) {
+      /* 新建群聊 */
+      console.log('-------------------新建群：给后端的用户数据------------------');
+      console.log(payload);
+      const { data } = yield call(createChatGroup, payload);
+      console.log('------------------新建群：后端传过来的数据----------------------');
+      console.log(data);
+      yield put({ type: 'getChatGroupList' });
       // const chatGroupTo = { chatGroupTo: data.data };
       // yield put({ type: 'app/query', payload: chatGroupTo });
+    },
+    * quitChatGroup({
+                        payload,
+                      }, { call, put }) {
+      /* 退出群聊 */
+      console.log('-------------------退出群：给后端的用户数据------------------');
+      console.log(payload);
+      const { data } = yield call(quitChatGroup, payload);
+      console.log('------------------退出群：后端传过来的数据----------------------');
+      console.log(data);
+      yield put({ type: 'getChatGroupList' });
     },
   },
   reducers: {
@@ -148,10 +177,16 @@ export default {
       history.listen(({ pathname }) => {
         if (pathname === '/chat') {
           dispatch({
+            type: 'getMyself',
+          });
+          dispatch({
             type: 'getFriendList',
           });
           dispatch({
-            type: 'geChatGroupList',
+            type: 'getChatGroupList',
+          });
+          dispatch({
+            type: 'app/webSocket',
           });
         }
       });

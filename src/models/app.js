@@ -2,6 +2,12 @@
 /* global document */
 /* global location */
 
+import {searchUser} from "../services/chat";
+import {message} from "antd/lib/index";
+import {routerRedux} from "dva/router";
+import { getMyself } from '../services/chat';
+
+
 export default {
   namespace: 'app',
   state: {
@@ -18,13 +24,22 @@ export default {
         message: 'Dashboard',
       },
     ],
+    groupMessage: [
+      {
+        userToId: 1,
+        chatGroupId: '',
+        userFromId: 2,
+        message: 'Dashboard',
+      },
+    ],
     socket: {},
     ContentType: '',
-    ListType: 'messages',
+    ListType: 'contacts',
     SearchUserVisible: false,
     CreateChatGroupVisible: false,
     NoticeListVisible: false,
     DeleteFriendVisible: false,
+    QuitChatGroupVisible: false,
     Notice: {},
     NoticeLength: 0,
     NoticeIsReply: {},
@@ -45,13 +60,13 @@ export default {
     },
     * webSocket({ payload, dispatch }, { put }) {
       const socket = new WebSocket('ws://localhost:8080/exampleone/ws');
-      const sendUserId = {
-        userId: payload,
-        messageType: 0,
-      };
+      // const sendUserId = {
+      //   userId: payload,
+      //   messageType: 0,
+      // };
       socket.onopen = function () {
         console.log('连接成功');
-        socket.send(JSON.stringify(sendUserId));
+        // socket.send(JSON.stringify(sendUserId));
       };
       socket.error = function () {
         console.log('出错了');
