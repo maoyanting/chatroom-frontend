@@ -1,9 +1,9 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import {
-  getFriendList, quitChatGroup, createChatGroup, getChatGroupList, searchUser, addFriend, deleteFriend, searchUserById,
-  getMyself
-} from '../services/chat';
+  getFriendList, quitChatGroup, createChatGroup, getChatGroupList,
+  searchUser, addFriend, deleteFriend, searchUserById,
+  getMyself, logout } from '../services/chat';
 
 export default {
   namespace: 'chat',
@@ -19,13 +19,20 @@ export default {
     * webSocket({ put }) {
       yield put({ type: 'app/updateWebSocket' });
     },
+    * logout({ payload }, { call, put }) {
+      const { data } = yield call(logout);
+      console.log('退出登录：后端传过来的数据------------------');
+      console.log(data);
+      yield put(routerRedux.push('/home'));
+      message.success('退出登录成功');
+    },
     * searchUser({
                    payload,
                  }, { call, put }) {
-      console.log('-------------------查询用户：给后端的用户数据------------------');
+      console.log('查询用户：给后端的用户数据------------------');
       console.log(payload);
       const { data } = yield call(searchUser, payload);
-      console.log('-------------------查询用户：后端传过来的数据------------------');
+      console.log('查询用户：后端传过来的数据------------------');
       console.log(data);
       if (data.resCode === 1) {
         const SearchUser = { SearchUser: data.data };
@@ -99,10 +106,10 @@ export default {
                               }, { call, put, select }) {
       /* 获取好友列表 */
       const { user } = yield select(_ => _.app)
-      console.log('-------------------获取好友列表：给后端的用户数据------------------');
+      console.log('获取好友列表：给后端的用户数据------------------');
       console.log(user);
       const { data } = yield call(getFriendList, user);
-      console.log('------------------获取好友列表：后端传过来的数据----------------------');
+      console.log('获取好友列表：后端传过来的数据----------------------');
       console.log(data);
       const friendList = { friendList: data.data };
       yield put({ type: 'app/query', payload: friendList });
@@ -112,10 +119,10 @@ export default {
                     }, { call, put, select }) {
       /* 获取群列表 */
       const { user } = yield select(_ => _.app)
-      console.log('-------------------获取群列表：给后端的用户数据------------------');
+      console.log('获取群列表：给后端的用户数据------------------');
       console.log(user);
       const { data } = yield call(getChatGroupList, user);
-      console.log('------------------获取群列表：后端传过来的数据----------------------');
+      console.log('获取群列表：后端传过来的数据----------------------');
       console.log(data);
       const chatGroupList = { chatGroupList: data.data };
       yield put({ type: 'app/query', payload: chatGroupList });
@@ -124,7 +131,7 @@ export default {
                   payload,
                 },{ call, put }) {
       const { data } = yield call(getMyself);
-      console.log('------------------获取user：后端传过来的数据----------------------');
+      console.log('获取user：后端传过来的数据----------------------');
       console.log(data);
       const user = { user: data.data };
       if (data.resCode === 1) {
@@ -138,10 +145,10 @@ export default {
                                   payload,
                                 }, { call, put }) {
       /* 新建群聊 */
-      console.log('-------------------新建群：给后端的用户数据------------------');
+      console.log('新建群：给后端的用户数据------------------');
       console.log(payload);
       const { data } = yield call(createChatGroup, payload);
-      console.log('------------------新建群：后端传过来的数据----------------------');
+      console.log('新建群：后端传过来的数据----------------------');
       console.log(data);
       yield put({ type: 'getChatGroupList' });
       // const chatGroupTo = { chatGroupTo: data.data };
@@ -151,10 +158,10 @@ export default {
                         payload,
                       }, { call, put }) {
       /* 退出群聊 */
-      console.log('-------------------退出群：给后端的用户数据------------------');
+      console.log('退出群：给后端的用户数据------------------');
       console.log(payload);
       const { data } = yield call(quitChatGroup, payload);
-      console.log('------------------退出群：后端传过来的数据----------------------');
+      console.log('退出群：后端传过来的数据----------------------');
       console.log(data);
       yield put({ type: 'getChatGroupList' });
     },

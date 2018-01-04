@@ -11,10 +11,10 @@ export default {
     * login({
               payload,
             }, { call, put }) {
-      console.log('-----------------登录：前端发过去的数据----------------');
+      console.log('登录：前端发过去的数据----------------');
       console.log(payload);
       const { data } = yield call(login, payload);
-      console.log('------------------登录：后端传过来的数据----------------------');
+      console.log('登录：后端传过来的数据----------------------');
       console.log(data);
       const user = { user: data.data };
       if (data.resCode === 1) {

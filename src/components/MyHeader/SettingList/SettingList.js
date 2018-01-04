@@ -3,10 +3,14 @@ import { connect } from 'dva';
 import { Popover, Icon, Divider } from 'antd';
 
 
-function SettingList({ dispatch }) {
+function SettingList({ dispatch, socket }) {
 
   function CreateChatGroup() {
     dispatch({ type: 'app/query', payload: { ContentType: 'CreateChatGroup' } });
+  }
+  function Logout() {
+    socket.close();
+    dispatch({ type: 'chat/logout' });
   }
   const content = (
     <div>
@@ -14,7 +18,7 @@ function SettingList({ dispatch }) {
       <Divider dashed />
       <a><Icon type="setting" />设置</a>
       <Divider dashed />
-      <a><Icon type="logout" />退出登录</a>
+      <a onClick={Logout}><Icon type="logout" />退出登录</a>
     </div>
   );
   return (
@@ -29,6 +33,7 @@ function mapStateToProps(state) {
   return {
     SearchUser: state.app.SearchUser,
     user: state.app.user,
+    socket: state.app.socket,
     CreateChatGroupVisible: state.app.CreateChatGroupVisible,
   };
 }

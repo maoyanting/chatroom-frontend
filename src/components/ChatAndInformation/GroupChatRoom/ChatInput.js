@@ -5,7 +5,7 @@ import styles from './ChatInput.less';
 
 const { TextArea } = Input;
 
-function ChatInput({ userFrom, chatGroupTo, dispatch, groupMessageOld, socket }) {
+function ChatInput({ userFrom, chatGroupTo, dispatch, InputMessage, socket }) {
   const groupMessageNew = {
     userFromId: userFrom.userId,
     message: '',
@@ -13,21 +13,24 @@ function ChatInput({ userFrom, chatGroupTo, dispatch, groupMessageOld, socket })
     time: '',
     messageType: 2,
   };
+  let inputMessage = '';
   function sendMessageToState() {
-    /* 把消息储存到state里面 */
-    // dispatch({ type: 'app/query', payload: { groupMessage: [...groupMessageOld, groupMessageNew] } });
+    groupMessageNew.message = InputMessage;
+    groupMessageNew.time = new Date();
     /* 用socket发送信息 */
-    console.log('----------send group message-----------');
-    console.log(groupMessageNew);
     socket.send(JSON.stringify(groupMessageNew));
+    dispatch({ type: 'app/query', payload: { InputMessage: '' } });
   }
   function handleChange(event) {
-    groupMessageNew.message = event.target.value;
-    groupMessageNew.time = new Date();
+    inputMessage = event.target.value;
+    dispatch({ type: 'app/query', payload: { InputMessage: inputMessage } });
   }
   return (
     <div className={styles.ChatInput}>
-      <TextArea rows={4} placeholder="按回车提交" className={styles.TextArea} onChange={handleChange} onPressEnter={() => sendMessageToState()} />
+      <TextArea
+        rows={4} value={InputMessage} placeholder="按回车提交" className={styles.TextArea}
+        onChange={handleChange} onPressEnter={() => sendMessageToState()}
+      />
       <Button style={{ width: 100, float: 'right' }} onClick={() => sendMessageToState()}>发送</Button>
     </div>
   );
@@ -36,7 +39,7 @@ function mapStateToProps(state) {
   return {
     userFrom: state.app.user,
     chatGroupTo: state.app.chatGroupTo,
-    groupMessageOld: state.app.groupMessage,
+    InputMessage: state.app.InputMessage,
     socket: state.app.socket,
   };
 }

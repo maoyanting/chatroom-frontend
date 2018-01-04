@@ -100,4 +100,15 @@ export function deleteFriend(data) {
     body: JSON.stringify(data),
   });
 }
+export function logout(data) {
+  return request('/api/logout', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    mode: 'cors',
+    credentials: 'include',
+    body: JSON.stringify(data),
+  });
+}
 

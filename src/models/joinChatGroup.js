@@ -13,10 +13,10 @@ export default {
               payload,
             }, { call, put }) {
       // const UserGroupMapping = { chatGroupId: payload };
-      console.log('-----------------进入群：前端发过去的数据----------------');
+      console.log('进入群：前端发过去的数据----------------');
       console.log(payload);
       const { data } = yield call(joinChatGroup, payload);
-      console.log('------------------进入群：后端传过来的数据----------------------');
+      console.log('进入群：后端传过来的数据----------------------');
       console.log(data);
       if (data.resCode === 1) {
         yield put(routerRedux.push('/chat'));

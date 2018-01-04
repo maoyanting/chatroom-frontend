@@ -2,9 +2,23 @@
   display:inline;
   float: right;
   max-width: 400px;
-  margin-left:auto;
+  /*margin-left:auto;*/
   padding: 15px;
   line-height: 1.2;
+  color: #000000;
+  background: #62b900;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+}
+.isMeSendAvatar {
+  display:inline;
+  float: right;
+  max-width: 400px;
+  /*margin-left:auto;*/
+  padding: 15px;
+  line-height: 1.2;
+  margin: 0 15px;
   color: #000000;
   background: #62b900;
   -moz-border-radius:5px;
@@ -16,7 +30,19 @@
   max-width: 400px;
   float: left;
   padding: 15px;
-  margin: 1em 0em 0em;
+  line-height: 1.2;
+  color: #000000;
+  background: #ffffff;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+}
+.isMeGetAvatar {
+  display:inline;
+  max-width: 400px;
+  float: left;
+  padding: 15px;
+  margin: 0 15px;
   line-height: 1.2;
   color: #000000;
   background: #ffffff;

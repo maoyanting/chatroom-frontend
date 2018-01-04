@@ -2,12 +2,6 @@
 /* global document */
 /* global location */
 
-import {searchUser} from "../services/chat";
-import {message} from "antd/lib/index";
-import {routerRedux} from "dva/router";
-import { getMyself } from '../services/chat';
-
-
 export default {
   namespace: 'app',
   state: {
@@ -17,6 +11,7 @@ export default {
     chatGroupList: {},
     userTo: {},
     chatGroupTo: {},
+    InputMessage: '',
     sendMessage: [
       {
         userToId: 1,
@@ -60,22 +55,15 @@ export default {
     },
     * webSocket({ payload, dispatch }, { put }) {
       const socket = new WebSocket('ws://localhost:8080/exampleone/ws');
-      // const sendUserId = {
-      //   userId: payload,
-      //   messageType: 0,
-      // };
       socket.onopen = function () {
-        console.log('连接成功');
-        // socket.send(JSON.stringify(sendUserId));
+        console.log('webSocket连接成功---------------');
       };
       socket.error = function () {
-        console.log('出错了');
+        console.log('出错了---------------');
       };
       socket.onclose = function () {
-        console.log('关闭websocket连接');
+        console.log('关闭websocket连接---------------');
       }
-      console.log('--------socket--------');
-      console.log(socket);
       yield put({
         type: 'updateSocket',
         socket,

@@ -45,9 +45,6 @@ const Chat = ({userNickname, SearchUserById, chatList, ContentType, dispatch, se
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
       >
         <MyHeader userNickname={userNickname} />
         <SearchUser />
