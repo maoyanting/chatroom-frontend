@@ -14,7 +14,7 @@
 
 
 
-![Screenshot-2018-1-5 聊天(1)](https://github.com/maoyanting/readme_pic/blob/master/chatroom/chatroom_login.png?raw=true)
+![Screenshot-2018-1-5 聊天(1)](https://github.com/maoyanting/readme_pic/blob/master/chatroom/chatroom_addfriend.png?raw=true)
 
 ## What’s this？
 
